@@ -46,116 +46,105 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    // redirect: '/dashboard',
     children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
+      path: '/',
+      name: '首页',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
 
   {
-    path: '/example',
+    path: '/author',
     component: Layout,
     redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    name: '创作者管理',
+    meta: { title: '创作者管理', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        name: '作者列表',
+        component: () => import('@/views/video/author/list'),
+        meta: { title: '作者列表', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: 'save',
+        name: '添加作者',
+        component: () => import('@/views/video/author/save'),
+        meta: { title: '添加作者', icon: 'tree' }
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
+        path: 'edit/:id',
+        name: '编辑',
+        component: () => import('@/views/video/author/save'),
+        meta: { title: '编辑', icon: 'tree' },
+        hidden:true
       }
     ]
   },
 
   {
-    path: 'external-link',
+    path: '/category',
     component: Layout,
+    redirect: '/category/list',
+    name: '视频分类管理',
+    meta: { title: '视频分类管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'list',
+        name: '视频分类列表',
+        component: () => import('@/views/video/category/list'),
+        meta: { title: '分类列表', icon: 'table' }
+      },
+      {
+        path: 'save',
+        name: '上传视频分类',
+        component: () => import('@/views/video/category/save'),
+        meta: { title: '上传分类', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    path: '/content',
+    component: Layout,
+    redirect: '/content/list',
+    name: '作品管理',
+    meta: { title: '作品管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'list',
+        name: '作品列表',
+        component: () => import('@/views/video/content/list'),
+        meta: { title: '作品列表', icon: 'table' }
+      },
+      {
+        path: 'info',
+        name: '添加作品',
+        component: () => import('@/views/video/content/info'),
+        meta: { title: '添加作品', icon: 'tree' }
+      },
+      {
+        path: 'info/:id',
+        name: '添加作品',
+        component: () => import('@/views/video/content/info'),
+        meta: { title: '添加作品', icon: 'tree' },
+        hidden:true
+      },
+      {
+        path: 'chapter/:id',
+        name: '章节信息',
+        component: () => import('@/views/video/content/chapter'),
+        meta: { title: '章节信息', icon: 'tree' },
+        hidden:true
+      },
+      {
+        path: 'send/:id',
+        name: '最终发布',
+        component: () => import('@/views/video/content/send'),
+        meta: { title: '最终发布', icon: 'tree' },
+        hidden:true
       }
     ]
   },

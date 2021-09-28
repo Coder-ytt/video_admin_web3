@@ -1,9 +1,11 @@
+<!--html结构-->
 <template>
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <img class="logo_img" src="@/assets/logo_image/logo.png" alt=""/>
+        <span class="title">视频后台管理系统</span>
       </div>
 
       <el-form-item prop="username">
@@ -51,7 +53,7 @@
     </el-form>
   </div>
 </template>
-
+<!--js-->
 <script>
 import { validUsername } from '@/utils/validate'
 
@@ -124,7 +126,7 @@ export default {
   }
 }
 </script>
-
+<!--css样式 sass less-->
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
@@ -216,12 +218,22 @@ $light_gray:#eee;
     position: relative;
 
     .title {
-      font-size: 26px;
+      font-size: 35px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0px auto 20px auto;
       text-align: center;
       font-weight: bold;
+      display: inline-block;
+      padding-top: 10px;
     }
+
+    .logo_img{
+      width: 60px;
+      height: 60px;
+      margin-right: 10px;
+      vertical-align: top;
+    }
+    margin-bottom: 20px;
   }
 
   .show-pwd {
