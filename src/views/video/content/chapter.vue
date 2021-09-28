@@ -69,7 +69,7 @@
         </el-form-item>
         <el-form-item label="上传视频">
           <!-- 上传视频 -->
-          <!--<el-upload
+          <el-upload
             :on-success="handleVodUploadSuccess"
             :on-remove="handleVodRemove"
             :before-remove="beforeVodRemove"
@@ -87,7 +87,7 @@
                 SWF、TS、VOB、WMV、WEBM 等视频格式上传</div>
               <i class="el-icon-question"/>
             </el-tooltip>
-          </el-upload>-->
+          </el-upload>
 
         </el-form-item>
       </el-form>
@@ -105,6 +105,7 @@
 <script>
   import chapter from '@/api/video/chapter'
   import video from '@/api/video/content-video'
+  import vod from '@/api/video/vod'
   export default {
     data() {
       return {
@@ -142,6 +143,7 @@
       showDialog(){
         this.dialogChapterVisible = true;
       },
+      //章节对话框保存按钮点击
       saveOrUpdate(){
         if (!this.chapter.id){
           //保存章节
@@ -169,6 +171,7 @@
           this.helpSaveChapter();
         })
       },
+      /*添加章节*/
       saveChapter(){
         this.chapter.contentId = this.contentId;
         chapter.saveChapter(this.chapter).then(res=>{
@@ -197,7 +200,7 @@
       /*删除章节*/
       deleteChapter(id){
         //提示
-        this.$confirm('真的要删除吗?','提示',{
+        this.$confirm('真的发删除嘛?','提示',{
           confirmButtonText:'确定',
           cancelButtonText:'取消'
         }).then(()=>{
@@ -225,9 +228,9 @@
           }
         }));
       },
+      //加载列表数据
       getChapterContentVideo(){
-        //加载列表数据
-        chapter.getChapterContentVideo(this.contentId).then(res=> {
+        chapter.getChapterContentVideo(this.contentId).then(res=>{
           //章节列表信息
           this.chapterList = res.data.items;
         })
@@ -313,13 +316,45 @@
         this.contentVideo.videoSourceId = '';
         this.fileList = [];
       },
-      pre(){
-        //路由跳转
-        this.$router.push({path:'/content/info/'+this.contentId})
+      //删除之前提示信息
+      beforeVodRemove(file, fileList) {
+        return this.$confirm(`确定删除 ${file.name}？`)
       },
-      next(){
-        //路由跳转
-        this.$router.push({path:'/content/send/'+this.contentId})
+      //删除小节视频
+      handleVodRemove(file, fileList) {
+        vod.deleteVodById(this.contentVideo.videoSourceId).then(response=>{
+          //清空当前小节视频id
+          this.contentVideo.videoSourceId = ''
+
+          this.$message({
+            type: 'success',
+            message: response.message
+          });
+          //清空当前小节视频标题
+          this.contentVideo.videoOriginalName = ''
+          this.fileList = []
+        })
+      },
+
+      //自动上传成功回调
+      handleVodUploadSuccess(response, file, fileList) {
+        //获取当前上传视频ID
+        this.contentVideo.videoSourceId = response.data.videoId
+        //获取当前上传视频标题
+        this.contentVideo.videoOriginalName = file.name;
+        this.fileList= [{'name':this.contentVideo.videoOriginalName}]
+      },
+      //已经超过了指定数量时, 调用此方法
+      handleUploadExceed(files, fileList) {
+        this.$message.warning('请先删除已上传的视频')
+      },
+      //上一步
+      pre(){
+        this.$router.push({path:'/video/content/info/'+this.contentId})
+      },
+      //下一步
+      next() {
+        this.$router.push({path:'/video/content/send/'+this.contentId})
       }
     }
   }
